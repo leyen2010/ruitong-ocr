@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>睿瞳 OCR · 智能识别开放平台</title>
+<style>
+:root{--primary:#4f6ef2;--primary-dark:#3a55d9;--navy:#16213e;--navy2:#1f2a44;--ok:#22b07d;--text:#2b2f3a;--muted:#8a90a0;--border:#e6e9f2}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--text);background:#f4f6fb;line-height:1.7}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#16213e 0%,#1f2a44 45%,#3a55d9 100%);color:#fff;padding:96px 0 110px}
+.hero::before,.hero::after{content:'';position:absolute;border-radius:50%;filter:blur(80px);opacity:.35}
+.hero::before{width:460px;height:460px;background:#4f6ef2;top:-140px;right:-100px}
+.hero::after{width:380px;height:380px;background:#22b07d;bottom:-160px;left:-80px}
+.hero .wrap{position:relative;z-index:1}
+.badge{display:inline-block;padding:5px 14px;border:1px solid rgba(255,255,255,.35);border-radius:20px;font-size:12.5px;letter-spacing:2px;opacity:.9;margin-bottom:22px}
+.hero h1{font-size:44px;letter-spacing:4px;font-weight:700;margin-bottom:14px}
+.hero .en{font-size:13px;letter-spacing:4px;opacity:.6;margin-bottom:26px}
+.hero p.lead{font-size:17px;opacity:.85;max-width:640px;margin-bottom:38px}
+.cta{display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-block;padding:12px 30px;border-radius:8px;font-size:15px;cursor:pointer;transition:.2s}
+.btn-pri{background:var(--primary);color:#fff;box-shadow:0 8px 24px rgba(79,110,242,.45)}
+.btn-pri:hover{background:var(--primary-dark);transform:translateY(-2px)}
+.btn-ghost{border:1px solid rgba(255,255,255,.5);color:#fff}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+
+/* ---------- stats ---------- */
+.stats{background:#fff;margin-top:-56px;border-radius:14px;box-shadow:0 16px 48px rgba(20,30,60,.12);position:relative;z-index:2;display:flex;flex-wrap:wrap}
+.stat{flex:1;min-width:180px;padding:26px 20px;text-align:center;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat .num{font-size:26px;font-weight:700;color:var(--primary)}
+.stat .lbl{font-size:13px;color:var(--muted);margin-top:4px}
+
+/* ---------- sections ---------- */
+section{padding:78px 0}
+.sec-title{text-align:center;margin-bottom:12px}
+.sec-title h2{font-size:28px;letter-spacing:2px}
+.sec-title .bar{width:44px;height:4px;background:var(--primary);border-radius:2px;margin:14px auto 0}
+.sec-title p{color:var(--muted);font-size:14.5px;margin-top:14px}
+
+/* capability cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:44px}
+.card{background:#fff;border-radius:12px;padding:26px 24px;box-shadow:0 2px 10px rgba(20,30,60,.06);transition:.25s;border-top:3px solid transparent}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(20,30,60,.12);border-top-color:var(--primary)}
+.card .ico{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;background:linear-gradient(135deg,#eef1ff,#e4f6ef)}
+.card h3{font-size:16.5px;margin-bottom:8px}
+.card p{font-size:13.5px;color:var(--muted)}
+
+/* doc types chips */
+.types{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:38px}
+.type-chip{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 22px;text-align:center;min-width:170px;box-shadow:0 2px 8px rgba(20,30,60,.05)}
+.type-chip b{display:block;font-size:14.5px;margin-bottom:2px}
+.type-chip code{font-size:11.5px;color:var(--primary);background:#eef1ff;padding:1px 8px;border-radius:10px}
+.type-chip .d{font-size:12px;color:var(--muted)}
+.type-chip.new{border-color:var(--primary)}
+.type-chip.new::after{content:'模板可扩展';font-size:10.5px;color:var(--ok);display:block;margin-top:4px}
+
+/* sample json */
+.sample{background:var(--navy2);border-radius:14px;padding:30px;margin-top:44px;display:grid;grid-template-columns:1fr 1.2fr;gap:30px;align-items:center;color:#c9d1d9}
+.sample h3{color:#fff;font-size:19px;margin-bottom:10px}
+.sample p{font-size:13.5px;opacity:.75;margin-bottom:16px}
+.sample .check{font-size:13px;line-height:2.1}
+.sample .check span{color:#7ee787;margin-right:8px}
+pre.code{background:#0d1117;border-radius:10px;padding:20px;font-family:Consolas,monospace;font-size:12.5px;overflow:auto;line-height:1.75;white-space:pre}
+pre.code .k{color:#79c0ff}
+@media (max-width:860px){.sample{grid-template-columns:1fr}}
+
+/* platform features */
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin-top:44px}
+.feat .f{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 10px rgba(20,30,60,.06)}
+.feat .f b{display:block;font-size:15.5px;margin-bottom:6px}
+.feat .f span{font-size:13px;color:var(--muted)}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:44px}
+@media (max-width:760px){.steps{grid-template-columns:1fr}}
+.step{background:#fff;border-radius:12px;padding:28px 24px;position:relative;box-shadow:0 2px 10px rgba(20,30,60,.06)}
+.step .n{position:absolute;top:-16px;left:24px;width:34px;height:34px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;box-shadow:0 6px 16px rgba(79,110,242,.4)}
+.step h3{font-size:16px;margin:10px 0 8px}
+.step p{font-size:13.5px;color:var(--muted)}
+.step code{font-size:12px;background:#f2f4f9;padding:2px 8px;border-radius:4px}
+
+/* cta footer */
+.final{background:linear-gradient(135deg,#16213e,#3a55d9);color:#fff;text-align:center;padding:70px 24px}
+.final h2{font-size:26px;letter-spacing:2px;margin-bottom:12px}
+.final p{opacity:.75;font-size:14.5px;margin-bottom:30px}
+footer{background:#10182b;color:#8a90a0;text-align:center;padding:26px;font-size:12.5px}
+footer .logo{color:#fff;font-size:15px;letter-spacing:3px;margin-bottom:6px}
+</style>
+</head>
+<body>
+
+<!-- ======== HERO ======== -->
+<div class="hero">
+  <div class="wrap">
+    <span class="badge">RUITONG OCR OPEN PLATFORM</span>
+    <h1>睿瞳 OCR</h1>
+    <div class="en">智能识别 · 开放平台</div>
+    <p class="lead">一套 API，识别万物文字。从通用文字、表格，到身份证、增值税发票、操作证、报销单等版式票证的结构化字段抽取——识别类型在线扩展，业务接入零改造。</p>
+    <div class="cta">
+      <a class="btn btn-pri" href="#quick">快速接入</a>
+      <a class="btn btn-ghost" href="#docs">查看接口文档</a>
+    </div>
+  </div>
+</div>
+
+<!-- ======== STATS ======== -->
+<div class="wrap">
+  <div class="stats">
+    <div class="stat"><div class="num">7+</div><div class="lbl">内置识别类型</div></div>
+    <div class="stat"><div class="num">20MB</div><div class="lbl">单图支持大小</div></div>
+    <div class="stat"><div class="num">2 套</div><div class="lbl">同步 / 异步调用模式</div></div>
+    <div class="stat"><div class="num">24h</div><div class="lbl">任务结果保留</div></div>
+    <div class="stat"><div class="num">0 改造</div><div class="lbl">新增类型业务侧成本</div></div>
+  </div>
+</div>
+
+<!-- ======== CAPABILITIES ======== -->
+<section id="capability">
+  <div class="wrap">
+    <div class="sec-title">
+      <h2>识别能力</h2>
+      <div class="bar"></div>
+      <p>通用 OCR 与版式票证结构化抽取，同一套鉴权与调用方式</p>
+    </div>
+    <div class="cards">
+      <div class="card"><div class="ico">📝</div><h3>通用文字识别</h3><p>中英文混排、印刷体高精度识别，返回文本、置信度与坐标框，适配任意场景图片。</p></div>
+      <div class="card"><div class="ico">📊</div><h3>表格识别</h3><p>还原图中表格结构，输出 HTML 或行列结构化单元格，直接进业务系统。</p></div>
+      <div class="card"><div class="ico">🪪</div><h3>证照结构化</h3><p>身份证正反面自动判别，关键字段结构化输出，身份号码内置国标校验位验证。</p></div>
+      <div class="card"><div class="ico">🧾</div><h3>票据结构化</h3><p>增值税发票（含拍照件）、全电发票：购销双方、税号、金额、价税合计一次抽齐。</p></div>
+    </div>
+    <div class="types">
+      <div class="type-chip"><b>文本识别</b><code>TEXT</code><div class="d">通用文字</div></div>
+      <div class="type-chip"><b>表格识别</b><code>TABLE</code><div class="d">HTML / 单元格</div></div>
+      <div class="type-chip"><b>身份证识别</b><code>ID_CARD</code><div class="d">正反面自动判别</div></div>
+      <div class="type-chip"><b>发票识别</b><code>INVOICE</code><div class="d">兼容全电发票</div></div>
+      <div class="type-chip"><b>增值税发票</b><code>VAT_INVOICE</code><div class="d">纸质票拍照件</div></div>
+      <div class="type-chip"><b>特种作业操作证</b><code>SPECIAL_OP_CERT</code><div class="d">电工证等</div></div>
+      <div class="type-chip"><b>费用报销单</b><code>EXPENSE_CLAIM</code><div class="d">明细 + 审批人</div></div>
+      <div class="type-chip new"><b>你的票种</b><code>自定义</code><div class="d">管理端在线添加</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== DOC SAMPLE ======== -->
+<section style="background:#fff">
+  <div class="wrap">
+    <div class="sec-title">
+      <h2>不只是识别，是结构化</h2>
+      <div class="bar"></div>
+      <p>一次调用，票面关键信息直接成为可用的业务数据</p>
+    </div>
+    <div class="sample">
+      <div>
+        <h3>一张增值税发票进来，一行数据出去</h3>
+        <p>金额带国标校验，缺失字段如实告知，绝不臆造——对接财务、档案、审计系统直接可用。</p>
+        <div class="check">
+          <div><span>✓</span>购买方 / 销售方名称与纳税人识别号</div>
+          <div><span>✓</span>发票代码、号码、开票日期、校验码</div>
+          <div><span>✓</span>金额、税额、价税合计（大小写）</div>
+          <div><span>✓</span>字段级校验结果与原始识别行回显</div>
+        </div>
+      </div>
+      <pre class="code"><span class="k">POST</span> /api/v1/doc/recognize?type=VAT_INVOICE
+
+{
+  <span class="k">"seller_tax_id"</span>: "911403116723429945",
+  <span class="k">"amount"</span>:       "383.62",
+  <span class="k">"tax_amount"</span>:    "61.38",
+  <span class="k">"total_amount"</span>:  "445.00",
+  <span class="k">"valid"</span>:         true,
+  <span class="k">"missing_fields"</span>: []
+}</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ======== PLATFORM ======== -->
+<section id="platform">
+  <div class="wrap">
+    <div class="sec-title">
+      <h2>为生产环境而生</h2>
+      <div class="bar"></div>
+      <p>不止识别接口，是一套完整的开放平台运营能力</p>
+    </div>
+    <div class="feat">
+      <div class="f"><b>⚡ 同步 + 异步双模式</b><span>交互小图走同步秒回；批量大图走异步任务，轮询或回调取结果，通道独立互不阻塞。</span></div>
+      <div class="f"><b>🔔 Webhook 回调</b><span>任务终态自动推送，HMAC-SHA256 签名防伪，失败按 10s/60s/300s 自动重试。</span></div>
+      <div class="f"><b>🛡️ 策略与配额</b><span>按客户端绑定策略：QPS 限流、日/月配额、接口白名单、IP 白名单，超限优雅降级。</span></div>
+      <div class="f"><b>🧩 识别类型在线扩展</b><span>新增票种只需在管理端配置字段抽取规则，保存即生效，业务方与平台都无需发版。</span></div>
+      <div class="f"><b>📋 全链路日志</b><span>调用日志、任务记录、推送日志全留痕，管理控制台可视化检索。</span></div>
+      <div class="f"><b>📦 官方 Java SDK</b><span>同步/异步/文档识别/回调验签开箱即用，无重依赖，Java 8+ 直接引入。</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== QUICK START ======== -->
+<section id="quick" style="background:#fff">
+  <div class="wrap">
+    <div class="sec-title">
+      <h2>三步快速接入</h2>
+      <div class="bar"></div>
+      <p>标准 REST API，任何语言都能调</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>获取 API Key</h3><p>平台管理端为你的客户端发放 Key，绑定访问策略（QPS / 配额 / 允许接口）。</p></div>
+      <div class="step"><div class="n">2</div><h3>调用识别接口</h3><p>携带 <code>Authorization: Bearer {apiKey}</code>，图片 multipart 或 Base64 上传，选择识别类型。</p></div>
+      <div class="step"><div class="n">3</div><h3>拿取结构化结果</h3><p>同步接口直接返回；异步任务轮询状态或接收 Webhook 回调，取结构化 JSON 入库。</p></div>
+    </div>
+    <div style="max-width:860px;margin:44px auto 0">
+      <pre class="code"><span class="k"># 同步识别一张增值税发票</span>
+curl -X POST 'http://your-host:28090/api/v1/doc/recognize?type=VAT_INVOICE' \
+  -H "Authorization: Bearer {apiKey}" \
+  -F "file=@增值税发票.png"</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ======== FINAL CTA ======== -->
+<div class="final" id="docs">
+  <h2>让每一张单据，直接变成数据</h2>
+  <p>完整接口说明、错误码、SDK 用法见《接口调用文档》（docs/API.md）</p>
+  <a class="btn btn-pri" href="#quick">立即开始</a>
+</div>
+
+<footer>
+  <div class="logo">睿瞳 OCR</div>
+  RuiTong OCR Open Platform · 智能识别开放平台
+</footer>
+
+</body>
+</html>
